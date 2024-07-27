@@ -25,7 +25,7 @@ export default function TabTwoScreen() {
 
         refetchAuth();
 
-        router.push('/');
+        router.replace('/');
     };
 
     return (

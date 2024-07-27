@@ -258,7 +258,7 @@ export default function Login() {
 
                                     refetchAuth();
 
-                                    router.push('/');
+                                    router.replace('/');
                                 })();
                             }
                         }}
