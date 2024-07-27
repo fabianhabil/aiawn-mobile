@@ -9,7 +9,12 @@ import {
 } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
-import { Provider } from './Provider';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { TamaguiProvider } from 'tamagui';
+import { config } from '../tamagui.config';
+import { ToastProvider, ToastViewport } from '@tamagui/toast';
+import { CurrentToast } from './CurrentToast';
+import { AuthContextProvider } from 'contexts/AuthContext';
 
 export { ErrorBoundary } from 'expo-router';
 
@@ -34,34 +39,39 @@ export default function RootLayout() {
     return <RootLayoutNav />;
 }
 
+const queryClient = new QueryClient();
+
 function RootLayoutNav() {
     const colorScheme = useColorScheme();
 
     return (
-        <Provider>
-            <ThemeProvider
-                value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+        <QueryClientProvider client={queryClient}>
+            <TamaguiProvider
+                config={config}
+                defaultTheme={colorScheme === 'dark' ? 'dark' : 'light'}
             >
-                <Stack>
-                    <Stack.Screen
-                        name='(tabs)'
-                        options={{
-                            headerShown: false
-                        }}
-                    />
+                <ToastProvider swipeDirection='horizontal' duration={6000}>
+                    <ThemeProvider
+                        value={
+                            colorScheme === 'dark' ? DarkTheme : DefaultTheme
+                        }
+                    >
+                        <AuthContextProvider>
+                            <Stack>
+                                <Stack.Screen
+                                    name='(tabs)'
+                                    options={{
+                                        headerShown: false
+                                    }}
+                                />
+                            </Stack>
+                        </AuthContextProvider>
 
-                    <Stack.Screen
-                        name='modal'
-                        options={{
-                            title: 'Tamagui + Expo + All The Stuff',
-                            presentation: 'modal',
-                            animation: 'slide_from_right',
-                            gestureEnabled: true,
-                            gestureDirection: 'horizontal'
-                        }}
-                    />
-                </Stack>
-            </ThemeProvider>
-        </Provider>
+                        <CurrentToast />
+                        <ToastViewport top='$16' left={0} right={0} />
+                    </ThemeProvider>
+                </ToastProvider>
+            </TamaguiProvider>
+        </QueryClientProvider>
     );
 }

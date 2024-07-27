@@ -1,6 +1,7 @@
 import { Link, Tabs } from 'expo-router';
 import { Button, useTheme } from 'tamagui';
-import { Atom, AudioWaveform } from '@tamagui/lucide-icons';
+import { CircleUserRound, Compass } from '@tamagui/lucide-icons';
+import CustomBottomBar from 'components/ui/CustomBottomBar';
 
 export default function TabLayout() {
     const theme = useTheme();
@@ -8,14 +9,18 @@ export default function TabLayout() {
     return (
         <Tabs
             screenOptions={{
-                tabBarActiveTintColor: theme.red10.val
+                tabBarActiveTintColor: theme.green11.val
             }}
+            tabBar={(props) => <CustomBottomBar {...props} />}
         >
             <Tabs.Screen
                 name='index'
                 options={{
-                    title: 'Tab One',
-                    tabBarIcon: ({ color }) => <Atom color={color} />,
+                    title: 'Home',
+                    headerShown: false,
+                    tabBarIcon: ({ color }) => (
+                        <Compass color={color} size={34} />
+                    ),
                     headerRight: () => (
                         <Link href='/modal' asChild>
                             <Button mr='$4' bg='$purple8' color='$purple12'>
@@ -25,11 +30,14 @@ export default function TabLayout() {
                     )
                 }}
             />
+
             <Tabs.Screen
-                name='two'
+                name='account'
                 options={{
-                    title: 'Tab Two',
-                    tabBarIcon: ({ color }) => <AudioWaveform color={color} />
+                    title: 'Account',
+                    tabBarIcon: ({ color }) => (
+                        <CircleUserRound color={color} size={34} />
+                    )
                 }}
             />
         </Tabs>
