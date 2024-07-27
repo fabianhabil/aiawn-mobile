@@ -3,7 +3,9 @@ import {
     StatusBar,
     ScrollView,
     View,
-    type RefreshControlProps
+    type RefreshControlProps,
+    KeyboardAvoidingView,
+    Platform
 } from 'react-native';
 import {
     SafeAreaProvider,
@@ -18,7 +20,8 @@ const CustomSafeAreaView = ({
     topBackgroundColor,
     fullBackgroundColorParent,
     refreshControl,
-    topInsetHeight = 0
+    topInsetHeight = 0,
+    scrollAbleScreen = true
 }: {
     children: ReactNode;
     topBackgroundColor?: string;
@@ -26,6 +29,7 @@ const CustomSafeAreaView = ({
     fullBackgroundColorParent?: boolean;
     refreshControl?: React.ReactElement<RefreshControlProps> | undefined;
     topInsetHeight?: number;
+    scrollAbleScreen?: boolean;
 }) => {
     const insets = useSafeAreaInsets();
 
@@ -54,16 +58,34 @@ const CustomSafeAreaView = ({
             />
             <TopInset />
             <Container>
-                <ScrollView
-                    contentContainerStyle={{
-                        flexGrow: 1,
-                        backgroundColor: backgroundColor ?? '$colorTransparent'
-                    }}
-                    refreshControl={refreshControl}
-                    scrollEventThrottle={refreshControl ? 16 : 0}
+                <KeyboardAvoidingView
+                    style={{ flex: 1 }}
+                    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
                 >
-                    {children}
-                </ScrollView>
+                    {scrollAbleScreen ? (
+                        <ScrollView
+                            contentContainerStyle={{
+                                flexGrow: 1,
+                                backgroundColor:
+                                    backgroundColor ?? '$colorTransparent'
+                            }}
+                            refreshControl={refreshControl}
+                            scrollEventThrottle={refreshControl ? 16 : 0}
+                        >
+                            {children}
+                        </ScrollView>
+                    ) : (
+                        <View
+                            style={{
+                                flexGrow: 1,
+                                backgroundColor:
+                                    backgroundColor ?? '$colorTransparent'
+                            }}
+                        >
+                            {children}
+                        </View>
+                    )}
+                </KeyboardAvoidingView>
             </Container>
         </SafeAreaProvider>
     );
