@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "target": "es2020",
+        "module": "commonjs",
+        "lib": ["dom", "esnext"],
+        "allowJs": false,
+        "jsx": "react-jsx",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitAny": false,
+        "noImplicitReturns": false,
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "preserveConstEnums": true,
+        "removeComments": false,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"]
+        }
+    },
+    "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"],
+    "exclude": ["node_modules", "_"],
+    "typeAcquisition": {
+        "enable": true
+    },
+    "extends": "expo/tsconfig.base"
+}
