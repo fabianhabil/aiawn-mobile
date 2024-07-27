@@ -3,6 +3,7 @@ import { z } from 'zod';
 export interface UserType {
     name: string;
     phoneNumber: string;
+    id: string;
 }
 
 const phoneNumber = z
@@ -40,11 +41,19 @@ export namespace UserRequest {
 
     export namespace Response {
         export interface Check {
-            // TODO: Wait for backend, for testing purpose mock is used
+            data: {
+                name: string;
+                phone: string;
+                _id: string;
+            };
         }
 
         export interface Register {
-            // TODO: Wait for backend, for testing purpose mock is used
+            data: {
+                name: string;
+                phone: string;
+                _id: string;
+            };
         }
     }
 }

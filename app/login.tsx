@@ -4,7 +4,8 @@ import { Tabs, useRouter } from 'expo-router';
 import {
     UserRequest,
     checkUserValidation,
-    registerUserValidation
+    registerUserValidation,
+    type UserType
 } from 'models/user/user';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -12,6 +13,8 @@ import { Button, H3, Input, Label, XStack, YStack, useTheme } from 'tamagui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { setItem } from 'utils/AsyncStorage';
 import { useAuth } from 'contexts/AuthContext';
+import { useMutation } from 'react-query';
+import api from 'utils/axios';
 
 export default function Login() {
     const theme = useTheme();
@@ -22,14 +25,17 @@ export default function Login() {
 
     const [registered, setRegistered] = useState<boolean>(true);
 
-    const { control: controlCheck, handleSubmit: handleSubmitCheck } =
-        useForm<UserRequest.Request.Check>({
-            defaultValues: {
-                phoneNumber: ''
-            },
-            resolver: zodResolver(checkUserValidation),
-            shouldFocusError: true
-        });
+    const {
+        control: controlCheck,
+        handleSubmit: handleSubmitCheck,
+        getValues
+    } = useForm<UserRequest.Request.Check>({
+        defaultValues: {
+            phoneNumber: ''
+        },
+        resolver: zodResolver(checkUserValidation),
+        shouldFocusError: true
+    });
 
     const {
         control: controlRegister,
@@ -42,6 +48,59 @@ export default function Login() {
         },
         resolver: zodResolver(registerUserValidation),
         shouldFocusError: true
+    });
+
+    const { mutate: login, isLoading: loginLoading } = useMutation({
+        mutationFn: async (
+            phone: string
+        ): Promise<UserRequest.Response.Check> => {
+            const data = await api.post('/users/_login', {
+                phone
+            });
+
+            return data.data;
+        },
+        onSuccess: async (data) => {
+            await setItem('user-data', {
+                phoneNumber: data.data.phone,
+                id: data.data._id,
+                name: data.data.name
+            } as UserType);
+
+            refetchAuth();
+
+            router.replace('/');
+        },
+        onError: (e) => {
+            setValueRegister('phoneNumber', getValues('phoneNumber'));
+
+            setRegistered(() => false);
+        }
+    });
+
+    const { mutate: register, isLoading: registerLoading } = useMutation({
+        mutationFn: async (
+            body: UserRequest.Request.Register
+        ): Promise<UserRequest.Response.Register> => {
+            const data = await api.post('/users/_register', {
+                name: body.name,
+                phone: body.phoneNumber
+            });
+
+            return data.data;
+        },
+
+        onSuccess: async (data) => {
+            await setItem('user-data', {
+                phoneNumber: data.data.phone,
+                id: data.data._id,
+                name: data.data.name
+            } as UserType);
+
+            refetchAuth();
+
+            router.replace('/');
+        }
     });
 
     return (
@@ -110,6 +169,7 @@ export default function Login() {
                                                                     /[^0-9]/g,
                                                                     ''
                                                                 );
+
                                                             onChange(
                                                                 numericText
                                                             );
@@ -157,8 +217,13 @@ export default function Login() {
                                                                     /[^0-9]/g,
                                                                     ''
                                                                 );
+
                                                             onChange(
                                                                 numericText
+                                                            );
+
+                                                            setRegistered(
+                                                                () => true
                                                             );
                                                         }}
                                                         onBlur={onBlur}
@@ -240,30 +305,19 @@ export default function Login() {
                         onPress={() => {
                             if (registered) {
                                 handleSubmitCheck((e) => {
-                                    console.log('submit check');
-                                    setRegistered(() => false);
-
-                                    setValueRegister(
-                                        'phoneNumber',
-                                        e.phoneNumber
-                                    );
-                                    console.log(e);
+                                    login(`+62${e.phoneNumber}`);
                                 })();
                             } else {
                                 handleSubmitRegister(async (e) => {
-                                    await setItem('user-data', {
-                                        ...e,
+                                    register({
+                                        name: e.name,
                                         phoneNumber: `+62${e.phoneNumber}`
                                     });
-
-                                    refetchAuth();
-
-                                    router.replace('/');
                                 })();
                             }
                         }}
                     >
-                        Log In
+                        {registered ? 'Log In' : 'Register'}
                     </Button>
                 </YStack>
             </CustomSafeAreaView>

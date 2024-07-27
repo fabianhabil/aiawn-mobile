@@ -6125,7 +6125,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.8.15":
+"dayjs@npm:^1.11.12, dayjs@npm:^1.8.15":
   version: 1.11.12
   resolution: "dayjs@npm:1.11.12"
   checksum: 8ee7c1e14961fd08d40b788d0c0e930dc6288b3d32911bb911b2fb31bb703c262788164fbe678ee9e50e2a35268d667b8c8ba43fd1806771c1f404c300a2b428
@@ -7271,12 +7271,14 @@ __metadata:
     axios: "npm:^1.7.2"
     babel-preset-expo: "npm:^11.0.6"
     burnt: "npm:^0.12.2"
+    dayjs: "npm:^1.11.12"
     eslint: "npm:^8.57.0"
     eslint-config-expo: "npm:^7.0.0"
     expo: "npm:~51.0.9"
     expo-font: "npm:~12.0.6"
     expo-linking: "npm:~6.3.1"
     expo-router: "npm:~3.5.15"
+    expo-speech: "npm:~12.0.2"
     expo-splash-screen: "npm:~0.27.4"
     expo-status-bar: "npm:^1.12.1"
     expo-system-ui: "npm:~3.0.4"
@@ -7296,6 +7298,15 @@ __metadata:
     zod: "npm:^3.23.8"
   languageName: unknown
   linkType: soft
+
+"expo-speech@npm:~12.0.2":
+  version: 12.0.2
+  resolution: "expo-speech@npm:12.0.2"
+  peerDependencies:
+    expo: "*"
+  checksum: a875b04c237eb9213145562f59d6af16bb7aaf641ee37a9edf32fc18c1dc986106b8694a09e8a3081624b781f4fbd81ccfb37e49768c8a125bec28fca573f8e0
+  languageName: node
+  linkType: hard
 
 "expo-splash-screen@npm:0.27.5, expo-splash-screen@npm:~0.27.4":
   version: 0.27.5

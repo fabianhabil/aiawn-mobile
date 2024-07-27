@@ -1,5 +1,10 @@
 import React, { type ReactNode } from 'react';
-import { StatusBar, ScrollView } from 'react-native';
+import {
+    StatusBar,
+    ScrollView,
+    View,
+    type RefreshControlProps
+} from 'react-native';
 import {
     SafeAreaProvider,
     SafeAreaView,
@@ -10,26 +15,35 @@ import { styled } from 'tamagui';
 const CustomSafeAreaView = ({
     children,
     backgroundColor,
-    topBackgroundColor
+    topBackgroundColor,
+    fullBackgroundColorParent,
+    refreshControl,
+    topInsetHeight = 0
 }: {
     children: ReactNode;
     topBackgroundColor?: string;
     backgroundColor?: string;
+    fullBackgroundColorParent?: boolean;
+    refreshControl?: React.ReactElement<RefreshControlProps> | undefined;
+    topInsetHeight?: number;
 }) => {
     const insets = useSafeAreaInsets();
 
-    const TopInset = styled(SafeAreaView, {
+    const TopInset = styled(View, {
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
-        height: insets.top,
+        height: insets.top + topInsetHeight,
         backgroundColor: topBackgroundColor ?? '$colorTransparent'
     });
 
     const Container = styled(SafeAreaView, {
         flex: 1,
-        backgroundColor: topBackgroundColor ?? '$colorTransparent'
+        backgroundColor: fullBackgroundColorParent
+            ? topBackgroundColor ?? ''
+            : '$colorTransparent',
+        marginTop: topInsetHeight
     });
 
     return (
@@ -45,6 +59,8 @@ const CustomSafeAreaView = ({
                         flexGrow: 1,
                         backgroundColor: backgroundColor ?? '$colorTransparent'
                     }}
+                    refreshControl={refreshControl}
+                    scrollEventThrottle={refreshControl ? 16 : 0}
                 >
                     {children}
                 </ScrollView>

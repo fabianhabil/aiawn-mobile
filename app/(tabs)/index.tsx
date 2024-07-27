@@ -2,13 +2,19 @@ import { H3, H4, Paragraph, ScrollView, View, XStack, YStack } from 'tamagui';
 import CustomSafeAreaView from 'components/ui/CustomSafeAreaView';
 import { Circle, Path, Svg } from 'react-native-svg';
 import { Mic } from '@tamagui/lucide-icons';
+import { useRouter } from 'expo-router';
+import { useAuth } from 'contexts/AuthContext';
 
 export default function TabOneScreen() {
+    const router = useRouter();
+
+    const { isAuthenticated } = useAuth();
     return (
         <>
             <CustomSafeAreaView
                 topBackgroundColor='#00B24F'
                 backgroundColor='white'
+                fullBackgroundColorParent
             >
                 <View
                     style={{
@@ -184,6 +190,13 @@ export default function TabOneScreen() {
                     position: 'absolute',
                     left: 8,
                     width: '95%'
+                }}
+                onPress={() => {
+                    if (isAuthenticated) {
+                        router.push('/aiawn');
+                    } else {
+                        router.push('/login');
+                    }
                 }}
             >
                 <XStack ai='center' gap='$4'>
