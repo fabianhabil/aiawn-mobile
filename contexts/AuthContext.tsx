@@ -1,3 +1,4 @@
+import type { UserType } from 'models/user/user';
 import {
     createContext,
     useContext,
@@ -5,15 +6,17 @@ import {
     type PropsWithChildren
 } from 'react';
 import { useQuery } from 'react-query';
-import { AuthContextType, AuthType } from 'types/auth';
+import { AuthContextType } from 'types/auth';
+import { getItem } from 'utils/AsyncStorage';
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
-    const { data, isLoading, isError } = useQuery<AuthType | null>({
+    const { data, isLoading, isError, refetch } = useQuery<UserType | null>({
         queryKey: ['user-data'],
-        queryFn: () => {
-            return null;
+        queryFn: async () => {
+            const user: UserType | null = await getItem('user-data');
+            return user;
         }
     });
 
@@ -21,7 +24,13 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
     return (
         <AuthContext.Provider
-            value={{ user: data ?? null, isLoading, isError, isAuthenticated }}
+            value={{
+                user: data ?? null,
+                isLoading,
+                isError,
+                isAuthenticated,
+                refetchAuth: refetch
+            }}
         >
             {children}
         </AuthContext.Provider>

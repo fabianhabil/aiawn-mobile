@@ -1,11 +1,9 @@
+import type { UserType } from 'models/user/user';
+
 export interface AuthContextType {
-    user: AuthType | null;
+    user: UserType | null;
     isLoading: boolean;
     isError: boolean;
     isAuthenticated: boolean;
-}
-
-export interface AuthType {
-    name: string;
-    phoneNumber: string;
+    refetchAuth: () => void;
 }

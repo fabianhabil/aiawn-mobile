@@ -2,10 +2,12 @@ import { Button, Paragraph, XStack, YStack } from 'tamagui';
 import { Pressable } from 'react-native';
 import { useAuth } from 'contexts/AuthContext';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 
 const CustomBottomBar = ({ descriptors, navigation, state }) => {
     const insets = useSafeAreaInsets();
+
+    const router = useRouter();
 
     const routes = state.routes;
 
@@ -26,21 +28,20 @@ const CustomBottomBar = ({ descriptors, navigation, state }) => {
                 justifyContent='center'
                 gap='$16'
             >
-                <Link href='/login' asChild>
-                    <Button
-                        backgroundColor={'#00B24F'}
-                        color='white'
-                        px='$8'
-                        fontWeight={'bold'}
-                        fontSize={14}
-                        shadowColor='rgba(0, 0, 0, 0.2)'
-                        shadowOffset={{ width: 0, height: 4 }}
-                        shadowOpacity={0.2}
-                        shadowRadius={4}
-                    >
-                        Log In
-                    </Button>
-                </Link>
+                <Button
+                    backgroundColor={'#00B24F'}
+                    color='white'
+                    px='$8'
+                    fontWeight={'bold'}
+                    fontSize={14}
+                    shadowColor='rgba(0, 0, 0, 0.2)'
+                    shadowOffset={{ width: 0, height: 4 }}
+                    shadowOpacity={0.2}
+                    shadowRadius={4}
+                    onPress={() => router.push('/login')}
+                >
+                    Log In
+                </Button>
             </XStack>
         );
     }
