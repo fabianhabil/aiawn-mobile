@@ -1,12 +1,7 @@
 import '../tamagui-web.css';
 
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
-import {
-    DarkTheme,
-    DefaultTheme,
-    ThemeProvider
-} from '@react-navigation/native';
+import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -42,20 +37,11 @@ export default function RootLayout() {
 const queryClient = new QueryClient();
 
 function RootLayoutNav() {
-    const colorScheme = useColorScheme();
-
     return (
         <QueryClientProvider client={queryClient}>
-            <TamaguiProvider
-                config={config}
-                defaultTheme={colorScheme === 'dark' ? 'dark' : 'light'}
-            >
+            <TamaguiProvider config={config} defaultTheme={'light'}>
                 <ToastProvider swipeDirection='horizontal' duration={6000}>
-                    <ThemeProvider
-                        value={
-                            colorScheme === 'dark' ? DarkTheme : DefaultTheme
-                        }
-                    >
+                    <ThemeProvider value={DefaultTheme}>
                         <AuthContextProvider>
                             <Stack>
                                 <Stack.Screen
