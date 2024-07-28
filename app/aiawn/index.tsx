@@ -44,7 +44,7 @@ const Page = () => {
                             style={{
                                 width: 44,
                                 height: 44,
-                                borderRadius: '50%',
+                                borderRadius: 22,
                                 shadowColor: '#000000',
                                 shadowOffset: { width: 0, height: 4 },
                                 shadowOpacity: 0.25,
@@ -91,7 +91,7 @@ const Page = () => {
                             style={{
                                 width: 44,
                                 height: 44,
-                                borderRadius: '50%',
+                                borderRadius: 22,
                                 shadowColor: '#000000',
                                 shadowOffset: { width: 0, height: 4 },
                                 shadowOpacity: 0.25,
@@ -101,7 +101,7 @@ const Page = () => {
                             ai={'center'}
                             jc={'center'}
                             backgroundColor={'white'}
-                            onPress={() => router.back()}
+                            onPress={() => router.replace('/')}
                         >
                             <ArrowLeft color='black' size={28} />
                         </View>

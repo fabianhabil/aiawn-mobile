@@ -82,9 +82,10 @@ export default function TabOneScreen() {
                                             style={{
                                                 width: 65,
                                                 height: 65,
-                                                borderRadius: '50%',
+                                                borderRadius: 65 / 2,
                                                 backgroundColor:
-                                                    'rgba(0,178,79,0.3)'
+                                                    'rgba(0,178,79,0.3)',
+                                                overflow: 'hidden'
                                             }}
                                         />
 

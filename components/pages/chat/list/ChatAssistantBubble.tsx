@@ -87,6 +87,8 @@ const ChatAssistantBubble = ({
         }
     });
 
+    console.log(chatRoomId);
+
     const { mutate: finishChat } = useMutation({
         mutationFn: async () => {
             const data = await api.post('/chat/_finalize', {
@@ -116,7 +118,7 @@ const ChatAssistantBubble = ({
                             width: 40,
                             height: 40,
                             backgroundColor: 'rgba(217,217,217,0.5)',
-                            borderRadius: '50%'
+                            borderRadius: 20
                         }}
                     />
                     <Text>{data.message}</Text>
