@@ -225,7 +225,7 @@ const Page = () => {
                         </XStack>
                     </XStack>
 
-                    <View style={{ maxHeight: '85%', paddingBottom: 32 }}>
+                    <View style={{ height: '85%', paddingBottom: 32 }}>
                         <ScrollView
                             showsVerticalScrollIndicator={false}
                             ref={scrollViewRef}
