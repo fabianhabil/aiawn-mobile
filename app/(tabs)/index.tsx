@@ -130,44 +130,47 @@ export default function TabOneScreen() {
                         </XStack>
                     </ScrollView>
 
-                    <ScrollView
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                    >
-                        <XStack gap='$4'>
-                            <YStack gap='$4'>
-                                <H3>Yuk, Makan Hemat</H3>
-                                <View
-                                    style={{
-                                        width: 350,
-                                        height: 170,
-                                        backgroundColor: 'rgba(0,178,79,0.2)',
-                                        borderRadius: 8
-                                    }}
-                                />
-                                <YStack>
-                                    <H4>Hemat Bukan Main</H4>
-                                    <Paragraph>Restoran X</Paragraph>
+                    <YStack gap='$4'>
+                        <H3>Yuk, Makan Hemat</H3>
+                        <ScrollView
+                            horizontal={true}
+                            showsHorizontalScrollIndicator={false}
+                        >
+                            <XStack gap='$4'>
+                                <YStack gap='$4'>
+                                    <View
+                                        style={{
+                                            width: 350,
+                                            height: 170,
+                                            backgroundColor:
+                                                'rgba(0,178,79,0.2)',
+                                            borderRadius: 8
+                                        }}
+                                    />
+                                    <YStack>
+                                        <H4>Hemat Bukan Main</H4>
+                                        <Paragraph>Restoran X</Paragraph>
+                                    </YStack>
                                 </YStack>
-                            </YStack>
 
-                            <YStack gap='$4'>
-                                <H3>Yuk, Makan Hemat</H3>
-                                <View
-                                    style={{
-                                        width: 350,
-                                        height: 170,
-                                        backgroundColor: 'rgba(0,178,79,0.2)',
-                                        borderRadius: 8
-                                    }}
-                                />
-                                <YStack>
-                                    <H4>Hemat Bukan Main</H4>
-                                    <Paragraph>Restoran Y</Paragraph>
+                                <YStack gap='$4'>
+                                    <View
+                                        style={{
+                                            width: 350,
+                                            height: 170,
+                                            backgroundColor:
+                                                'rgba(0,178,79,0.2)',
+                                            borderRadius: 8
+                                        }}
+                                    />
+                                    <YStack>
+                                        <H4>Hemat Bukan Main</H4>
+                                        <Paragraph>Restoran Y</Paragraph>
+                                    </YStack>
                                 </YStack>
-                            </YStack>
-                        </XStack>
-                    </ScrollView>
+                            </XStack>
+                        </ScrollView>
+                    </YStack>
                 </YStack>
             </CustomSafeAreaView>
 

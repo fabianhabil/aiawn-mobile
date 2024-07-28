@@ -112,10 +112,15 @@ const ChatList = ({ chatData }: ChatListType) => {
                                 }
                             >
                                 <Paragraph>
-                                    {data.id}
-                                    {dayjs(data.timestamps).format(
-                                        'dddd, DD-MM-YYYY HH:mm:ss'
-                                    )}
+                                    {data?.summary
+                                        ? `${data.summary} - ${dayjs(
+                                              data.timestamps
+                                          ).format(
+                                              'dddd, DD-MM-YYYY HH:mm:ss'
+                                          )}`
+                                        : `${dayjs(data.timestamps).format(
+                                              'dddd, DD-MM-YYYY HH:mm:ss'
+                                          )}`}
                                 </Paragraph>
                             </XStack>
                         </YStack>

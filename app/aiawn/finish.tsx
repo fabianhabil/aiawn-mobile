@@ -35,7 +35,7 @@ const Finish = () => {
                     jc='center'
                 >
                     <H4 ta='center'>Order Completed!</H4>
-                    <H4 ta='center'>So Happy that Grabek can help you!</H4>
+                    <H4 ta='center'>So Happy that GRABesk can help you!</H4>
                 </YStack>
             </CustomSafeAreaView>
         </>

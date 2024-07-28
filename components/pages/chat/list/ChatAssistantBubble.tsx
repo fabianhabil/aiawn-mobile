@@ -64,10 +64,12 @@ const formatNumber = (num: number): string => {
 
 const ChatAssistantBubble = ({
     data,
-    chatRoomId
+    chatRoomId,
+    isActive
 }: {
     data: ChatModels.Response.Detail;
     chatRoomId: string;
+    isActive: boolean;
 }) => {
     const router = useRouter();
 
@@ -140,7 +142,9 @@ const ChatAssistantBubble = ({
                             ai={'center'}
                             gap='$4'
                             onPress={() => {
-                                finishChat();
+                                if (isActive) {
+                                    finishChat();
+                                }
                             }}
                         >
                             <View

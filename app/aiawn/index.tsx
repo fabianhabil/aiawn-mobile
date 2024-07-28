@@ -4,6 +4,7 @@ import CustomSafeAreaView from 'components/ui/CustomSafeAreaView';
 import { useAuth } from 'contexts/AuthContext';
 import { Tabs, useRouter } from 'expo-router';
 import type { ChatModels } from 'models/chat/chat';
+import { RefreshControl } from 'react-native';
 import { useQuery } from 'react-query';
 import { H3, Spinner, View, XStack, YStack } from 'tamagui';
 import api from 'utils/axios';
@@ -13,7 +14,7 @@ const Page = () => {
 
     const router = useRouter();
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, refetch } = useQuery({
         queryKey: ['chat-list', user?.id],
         queryFn: async (): Promise<ChatModels.Response.List[]> => {
             const data = await api.post('/chat/summary', {
@@ -53,11 +54,11 @@ const Page = () => {
                             ai={'center'}
                             jc={'center'}
                             backgroundColor={'white'}
-                            onPress={() => router.back()}
+                            onPress={() => router.replace('/')}
                         >
                             <ArrowLeft color='black' size={28} />
                         </View>
-                        <H3 color='#979797'>Grabek</H3>
+                        <H3 color='#979797'>GRABesk</H3>
                     </XStack>
 
                     <Spinner size='large' color='#00B24F' mt='$16' />
@@ -72,6 +73,12 @@ const Page = () => {
                 topBackgroundColor='#00B24F'
                 backgroundColor='white'
                 topInsetHeight={20}
+                refreshControl={
+                    <RefreshControl
+                        onRefresh={refetch}
+                        refreshing={isLoading}
+                    />
+                }
             >
                 <Tabs.Screen
                     options={{
@@ -98,7 +105,7 @@ const Page = () => {
                         >
                             <ArrowLeft color='black' size={28} />
                         </View>
-                        <H3 color='#979797'>Grabek</H3>
+                        <H3 color='#979797'>GRABesk</H3>
                     </XStack>
 
                     <ChatList chatData={data ?? []} />

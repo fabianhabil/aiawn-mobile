@@ -1,11 +1,11 @@
 {
     "expo": {
-        "name": "boilerplate-expo",
-        "slug": "boilerplate-expo",
+        "name": "GRABesk",
+        "slug": "GRABesk",
         "version": "1.0.0",
         "orientation": "portrait",
         "icon": "./assets/images/icon.png",
-        "scheme": "boilerplatexpo",
+        "scheme": "GRABesk",
         "userInterfaceStyle": "automatic",
         "splash": {
             "image": "./assets/images/splash.png",

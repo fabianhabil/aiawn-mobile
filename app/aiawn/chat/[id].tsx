@@ -55,7 +55,11 @@ const Page = () => {
 
     const { user } = useAuth();
 
-    const { mutate: sendChat, isLoading: isLoadingSendChat } = useMutation({
+    const {
+        mutate: sendChat,
+        isLoading: isLoadingSendChat,
+        data: dataChat
+    } = useMutation({
         mutationFn: async (msg: string) => {
             const data = await api.post('/chat/_submit', {
                 user_agent: Platform.OS,
@@ -117,6 +121,8 @@ const Page = () => {
         }
     });
 
+    console.log([dataChat, chatCoreData]);
+
     const sendMessage = (msg: string) => {
         if (threadId === 'undefined' && !chatCoreData) {
             console.log('new');
@@ -169,26 +175,28 @@ const Page = () => {
                         backgroundColor: 'transparent'
                     }}
                 >
-                    <XStack ai={'center'} gap='$4'>
-                        <View
-                            style={{
-                                width: 44,
-                                height: 44,
-                                borderRadius: '50%',
-                                shadowColor: '#000000',
-                                shadowOffset: { width: 0, height: 4 },
-                                shadowOpacity: 0.25,
-                                shadowRadius: 4,
-                                elevation: 4
-                            }}
-                            ai={'center'}
-                            jc={'center'}
-                            backgroundColor={'white'}
-                            onPress={() => router.back()}
-                        >
-                            <ArrowLeft color='black' size={28} />
-                        </View>
-                        <H3 color='#979797'>Grabek Chat Room</H3>
+                    <XStack ai={'center'} gap='$2' jc='space-between'>
+                        <XStack ai='center' gap='$4'>
+                            <View
+                                style={{
+                                    width: 44,
+                                    height: 44,
+                                    borderRadius: '50%',
+                                    shadowColor: '#000000',
+                                    shadowOffset: { width: 0, height: 4 },
+                                    shadowOpacity: 0.25,
+                                    shadowRadius: 4,
+                                    elevation: 4
+                                }}
+                                ai={'center'}
+                                jc={'center'}
+                                backgroundColor={'white'}
+                                onPress={() => router.replace('/aiawn')}
+                            >
+                                <ArrowLeft color='black' size={28} />
+                            </View>
+                            <H3 color='#979797'>GRABesk Chat Room</H3>
+                        </XStack>
                     </XStack>
 
                     <View style={{ maxHeight: '85%' }}>
@@ -224,6 +232,9 @@ const Page = () => {
                                                     data={data}
                                                     key={data.messageId}
                                                     chatRoomId={id as string}
+                                                    isActive={Boolean(
+                                                        isActive === 'true'
+                                                    )}
                                                 />
                                             );
                                         }
@@ -274,7 +285,7 @@ const Page = () => {
                                 <>
                                     <Input
                                         flex={1}
-                                        placeholder='Send Grabek a message...'
+                                        placeholder='Send GRABesk a message...'
                                         value={value}
                                         onBlur={onBlur}
                                         onChangeText={onChange}

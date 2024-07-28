@@ -22,6 +22,7 @@ export namespace ChatModels {
             threadId?: string;
             timestamps: string;
             is_active: boolean;
+            summary?: string;
         }
 
         export interface Detail {
