@@ -86,6 +86,8 @@ const ChatAssistantBubble = ({
         }
     });
 
+    console.log(attachmentData);
+
     return (
         <>
             <YStack gap='$4'>
@@ -112,7 +114,7 @@ const ChatAssistantBubble = ({
                     {attachmentData?.map((data) => (
                         <XStack
                             key={data.id}
-                            p='$4'
+                            py='$6'
                             px='$3'
                             style={{
                                 width: '100%',
@@ -145,7 +147,7 @@ const ChatAssistantBubble = ({
                             <YStack
                                 style={{
                                     flex: 1,
-                                    height: 100
+                                    minHeight: 100
                                 }}
                                 gap='$3'
                             >
