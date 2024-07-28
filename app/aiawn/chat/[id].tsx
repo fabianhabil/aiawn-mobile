@@ -1,4 +1,4 @@
-import { ArrowLeft, SendHorizontal } from '@tamagui/lucide-icons';
+import { ArrowLeft, SendHorizontal, Trash2 } from '@tamagui/lucide-icons';
 import ChatAssistantBubble from 'components/pages/chat/list/ChatAssistantBubble';
 import ChatUserBubble from 'components/pages/chat/list/ChatUserBubble';
 import CustomSafeAreaView from 'components/ui/CustomSafeAreaView';
@@ -8,14 +8,15 @@ import { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
 import {
-    H3,
+    H4,
     Input,
     Paragraph,
     ScrollView,
     Spinner,
     View,
     XStack,
-    YStack
+    YStack,
+    useTheme
 } from 'tamagui';
 import api from 'utils/axios';
 import * as Location from 'expo-location';
@@ -23,13 +24,15 @@ import { useAuth } from 'contexts/AuthContext';
 import { Platform } from 'react-native';
 
 const Page = () => {
+    const theme = useTheme();
+
     const scrollViewRef = useRef<ScrollView>(null);
 
     const [location, setLocation] = useState<Location.LocationObject>();
 
     const router = useRouter();
 
-    const { id, isActive, threadId } = useLocalSearchParams();
+    const { id, isActive, threadId, summary } = useLocalSearchParams();
 
     const { control, handleSubmit, reset } = useForm({
         defaultValues: { message: '' }
@@ -55,11 +58,7 @@ const Page = () => {
 
     const { user } = useAuth();
 
-    const {
-        mutate: sendChat,
-        isLoading: isLoadingSendChat,
-        data: dataChat
-    } = useMutation({
+    const { mutate: sendChat, isLoading: isLoadingSendChat } = useMutation({
         mutationFn: async (msg: string) => {
             const data = await api.post('/chat/_submit', {
                 user_agent: Platform.OS,
@@ -121,8 +120,6 @@ const Page = () => {
         }
     });
 
-    console.log([dataChat, chatCoreData]);
-
     const sendMessage = (msg: string) => {
         if (threadId === 'undefined' && !chatCoreData) {
             console.log('new');
@@ -153,6 +150,21 @@ const Page = () => {
         getLocation();
     }, []);
 
+    const { mutate: finishChat } = useMutation({
+        mutationFn: async () => {
+            const data = await api.post('/chat/_finalize', {
+                chat_room_id: id
+            });
+
+            return data.data;
+        },
+        onSuccess: () => {
+            router.push('/aiawn/finish');
+        }
+    });
+
+    console.log(summary);
+
     return (
         <>
             <CustomSafeAreaView
@@ -175,7 +187,12 @@ const Page = () => {
                         backgroundColor: 'transparent'
                     }}
                 >
-                    <XStack ai={'center'} gap='$2' jc='space-between'>
+                    <XStack
+                        ai={'center'}
+                        gap='$2'
+                        jc='space-between'
+                        style={{ width: '100%' }}
+                    >
                         <XStack ai='center' gap='$4'>
                             <View
                                 style={{
@@ -195,11 +212,20 @@ const Page = () => {
                             >
                                 <ArrowLeft color='black' size={28} />
                             </View>
-                            <H3 color='#979797'>GRABesk Chat Room</H3>
+                            <H4 color='#979797' style={{ flex: 1 }}>
+                                {summary && summary !== 'undefined'
+                                    ? summary
+                                    : 'GRABesk Chat Room'}
+                            </H4>
+
+                            <Trash2
+                                color={theme.red10.val}
+                                onPress={() => finishChat()}
+                            />
                         </XStack>
                     </XStack>
 
-                    <View style={{ maxHeight: '85%' }}>
+                    <View style={{ maxHeight: '85%', paddingBottom: 32 }}>
                         <ScrollView
                             showsVerticalScrollIndicator={false}
                             ref={scrollViewRef}
@@ -232,6 +258,7 @@ const Page = () => {
                                                     data={data}
                                                     key={data.messageId}
                                                     chatRoomId={id as string}
+                                                    finishChat={finishChat}
                                                     isActive={Boolean(
                                                         isActive === 'true'
                                                     )}
@@ -239,14 +266,11 @@ const Page = () => {
                                             );
                                         }
                                     })}
+                                    {(isLoadingSendChat ||
+                                        isLoadingStartNewChat) && (
+                                        <Spinner size='large' color='#00B24F' />
+                                    )}
                                 </YStack>
-                            )}
-                            {(isLoadingSendChat || isLoadingStartNewChat) && (
-                                <Spinner
-                                    size='large'
-                                    color='#00B24F'
-                                    mt='$16'
-                                />
                             )}
                         </ScrollView>
                     </View>

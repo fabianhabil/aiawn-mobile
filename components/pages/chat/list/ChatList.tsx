@@ -96,7 +96,7 @@ const ChatList = ({ chatData }: ChatListType) => {
                             <XStack
                                 style={{
                                     width: '100%',
-                                    height: 60,
+                                    minHeight: 60,
                                     backgroundColor: data.is_active
                                         ? 'white'
                                         : 'rgba(217,217,217,0.3)',
@@ -104,10 +104,11 @@ const ChatList = ({ chatData }: ChatListType) => {
                                 }}
                                 ai={'center'}
                                 px='$4'
+                                py='$2'
                                 {...shadowActive}
                                 onPress={() =>
                                     router.push(
-                                        `/aiawn/chat/${data.id}?isActive=${data.is_active}&threadId=${data.threadId}`
+                                        `/aiawn/chat/${data.id}?isActive=${data.is_active}&threadId=${data.threadId}&summary=${data.summary}`
                                     )
                                 }
                             >

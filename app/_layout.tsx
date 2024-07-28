@@ -10,8 +10,11 @@ import { config } from '../tamagui.config';
 import { ToastProvider, ToastViewport } from '@tamagui/toast';
 import { CurrentToast } from './CurrentToast';
 import { AuthContextProvider } from 'contexts/AuthContext';
+import { LogBox } from 'react-native';
 
 export { ErrorBoundary } from 'expo-router';
+
+LogBox.ignoreAllLogs();
 
 SplashScreen.preventAutoHideAsync();
 

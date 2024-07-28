@@ -1,7 +1,6 @@
 import { DollarSign, StarFull } from '@tamagui/lucide-icons';
-import { useRouter } from 'expo-router';
 import type { ChatModels } from 'models/chat/chat';
-import { useMutation, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import { Paragraph, Text, View, XStack, YStack } from 'tamagui';
 import api from 'utils/axios';
 
@@ -65,14 +64,14 @@ const formatNumber = (num: number): string => {
 const ChatAssistantBubble = ({
     data,
     chatRoomId,
-    isActive
+    isActive,
+    finishChat
 }: {
     data: ChatModels.Response.Detail;
     chatRoomId: string;
     isActive: boolean;
+    finishChat: () => void;
 }) => {
-    const router = useRouter();
-
     const { data: attachmentData } = useQuery({
         queryKey: ['chat-attachment', data.messageId],
         enabled: data.attachment && data.attachment.length !== 0,
@@ -84,21 +83,6 @@ const ChatAssistantBubble = ({
             });
 
             return response.data;
-        }
-    });
-
-    console.log(chatRoomId);
-
-    const { mutate: finishChat } = useMutation({
-        mutationFn: async () => {
-            const data = await api.post('/chat/_finalize', {
-                chat_room_id: chatRoomId
-            });
-
-            return data.data;
-        },
-        onSuccess: () => {
-            router.push('/aiawn/finish');
         }
     });
 

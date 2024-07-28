@@ -1,8 +1,4 @@
-# Personal React Native Expo Boilerplate
-
-Fabian's personal boilerplate for React Native using Expo and Tamagui
-
-> Fun fact, this boilerplate created for my hackjakarta 2024 and my thesis!
+# GRABesk - Hackjakarta 2024 - Team Smiley Face - Mobile App
 
 ### Library Used
 
@@ -12,3 +8,16 @@ Fabian's personal boilerplate for React Native using Expo and Tamagui
 -   zod
 -   react-hook-form
 -   @hookform/resolvers
+-   dayjs
+
+## Setting Up The Project
+
+1. Copy .env.example to .env and fill the backend URL
+2. 'npm install' or 'yarn install'
+
+## Start The Mobile App
+### IOS
+>'npm run ios' or 'yarn ios'
+
+### Android
+>'npm run android' or 'yarn android'
